@@ -18,7 +18,7 @@ services:
     networks:
       - homelab
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /mnt/swarm-data/caddy/Caddyfile:/etc/caddy/Caddyfile
       - /mnt/swarm-data/caddy/data:/data
       - /mnt/swarm-data/caddy/config:/config
     deploy:
