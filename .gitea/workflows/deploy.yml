@@ -1,0 +1,57 @@
+name: Deploy to Swarm
+
+on:
+  push:
+    branches:
+      - main  # Only deploys from main branch (staging is safe!)
+    paths:
+      - 'stacks/**/stack.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed stacks
+        id: changes
+        run: |
+          if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
+            echo "⚠️  Initial commit - skipping auto-deploy"
+            echo "changed=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep "stacks/.*/stack.yml$" || true)
+          echo "changed=$CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Deploy changed stacks
+        if: steps.changes.outputs.changed != ''
+        run: |
+          echo "📋 Changed stacks:"
+          echo "${{ steps.changes.outputs.changed }}"
+          
+          for file in ${{ steps.changes.outputs.changed }}; do
+            stack_name=$(basename $(dirname "$file"))
+            
+            echo "🚀 Deploying: $stack_name"
+            
+            if docker stack deploy -c "$file" "$stack_name" --with-registry-auth; then
+              echo "✅ $stack_name deployed"
+            else
+              echo "❌ $stack_name failed"
+              exit 1
+            fi
+          done
+
+      - name: Show deployment status
+        if: always()
+        run: |
+          echo "📊 Current stacks:"
+          docker stack ls
+          echo ""
+          echo "📦 Services:"
+          docker service ls
