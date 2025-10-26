@@ -3,11 +3,16 @@ services:
     image: nginx:alpine
     networks:
       - caddy
+    ports:
+      - target: 80
+        published: 8080
+        mode: host
     deploy:
       replicas: 1
       labels:
         caddy: test.frostlabs.me
-        caddy.reverse_proxy: "{{upstreams 80}}"
+        caddy.reverse_proxy: "nginx:80"
+        caddy.tls.dns: cloudflare
       restart_policy:
         condition: on-failure
 
