@@ -1,6 +1,7 @@
 services:
   nginx:
     image: nginx:alpine
+    hostname: nginx
     networks:
       - caddy
     ports:
