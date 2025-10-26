@@ -36,3 +36,9 @@ jobs:
             echo "🚀 Deploying: $stack_name"
             docker stack deploy -c "$file" "$stack_name" --with-registry-auth
           done
+
+      - name: Reload Caddy
+        if: steps.changes.outputs.changed != ''
+        run: |
+          echo "🔄 Restarting Caddy..."
+          docker service update --force caddy_caddy
