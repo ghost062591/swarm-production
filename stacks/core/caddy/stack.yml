@@ -8,8 +8,8 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ~/swarm-data/caddy/data:/data
-      - ~/swarm-data/caddy/config:/config
+      - /home/doc/swarm-data/caddy/data:/data
+      - /home/doc/swarm-data/caddy/config:/config
     environment:
       - CADDY_INGRESS_NETWORKS=caddy
       - CLOUDFLARE_API_TOKEN=file:///run/secrets/cloudflare_api_token
