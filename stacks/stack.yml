@@ -1,0 +1,16 @@
+services:
+  nginx:
+    image: nginx:alpine
+    networks:
+      - caddy
+    deploy:
+      replicas: 1
+      labels:
+        caddy: test.frostlabs.me
+        caddy.reverse_proxy: "{{upstreams 80}}"
+      restart_policy:
+        condition: on-failure
+
+networks:
+  caddy:
+    external: true
