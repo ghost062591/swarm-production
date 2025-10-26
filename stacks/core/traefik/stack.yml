@@ -1,0 +1,57 @@
+services:
+  traefik:
+    image: traefik:v3.5
+    command:
+    - --api.dashboard=true
+    - --api.insecure=true
+    - --entrypoints.web.address=:80
+    - --entrypoints.websecure.address=:443
+    - --entrypoints.web.http.redirections.entrypoint.to=websecure
+    - --entrypoints.web.http.redirections.entrypoint.scheme=https
+    - --providers.swarm=true
+    - --providers.swarm.exposedByDefault=false
+    - --providers.swarm.network=homelab
+    - --providers.swarm.watch=true
+    - --providers.file.directory=/etc/traefik/dynamic
+    - --providers.file.watch=true
+    - --certificatesresolvers.cloudflare.acme.dnschallenge=true
+    - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
+    - --certificatesresolvers.cloudflare.acme.email=john.allisonwin@outlook.com
+    - --certificatesresolvers.cloudflare.acme.storage=/certificates/acme.json
+    - --log.level=DEBUG
+    - --accesslog=true
+    ports:
+    - "80:80"
+    - "443:443"
+    - "8082:8080"
+    environment:
+    - CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_api_token
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /home/doc/swarm/data/traefik/certificates:/certificates
+    - /home/doc/swarm/stacks/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
+    secrets:
+    - cloudflare_api_token
+    networks:
+    - homelab
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+        - node.hostname == p0
+      labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`proxy.frostlabs.me`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$$05$$hum3/0h/OE1usCFblaDxgOcvHdPDT9emtmP28ctncJcHv07ITo1fq"
+
+networks:
+  homelab:
+    external: true
+
+secrets:
+  cloudflare_api_token:
+    external: true
