@@ -10,7 +10,7 @@ services:
       - /home/doc/swarm-data/appdata:/storage
       - /home/doc/swarm/appdata:/nfs/appdata
     deploy:
-      replicas: 2
+      replicas: 1
       placement:
         constraints:
         - node.hostname == p0
