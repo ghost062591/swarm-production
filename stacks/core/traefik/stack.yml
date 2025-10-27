@@ -28,8 +28,8 @@ services:
     - CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_api_token
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
-    - /home/doc/swarm/data/traefik/certificates:/certificates
-    - /home/doc/swarm/conf/traefik-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
+    - /home/doc/swarm-data/appdata/traefik/certificates:/certificates
+    - /home/doc/swarm/swarm-production/conf/traefik-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
     secrets:
     - cloudflare_api_token
     networks:
