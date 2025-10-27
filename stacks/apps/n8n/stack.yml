@@ -32,4 +32,4 @@ services:
 
 networks:
   homelab:
-    external: true
+    external: true 
