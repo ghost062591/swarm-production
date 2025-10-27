@@ -2,8 +2,6 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     command: -H tcp://tasks.agent:9001 --tlsskipverify
-    ports:
-    - 9000:9000
     volumes:
     - /home/doc/swarm-data/appdata/portainer:/data
     networks:
@@ -15,7 +13,7 @@ services:
         constraints: 
           - node.hostname == p0
       labels:
-      - "traefik.enable=false"
+      - "traefik.enable=true"
       - "traefik.swarm.network=homelab"
       - "traefik.http.routers.portainer.rule=Host(`portainer.frostlabs.me`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
