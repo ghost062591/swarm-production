@@ -15,4 +15,4 @@ services:
         - node.hostname == p0
 networks:
   homelab:
-    external: true 
+    external: true
