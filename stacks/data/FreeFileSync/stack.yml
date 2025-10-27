@@ -1,0 +1,19 @@
+services:
+  freefilesync:
+    image: jlesage/freefilesync
+    networks:
+      - homelab
+    ports:
+      - "5800:5800"
+    volumes:
+      - /home/doc/swarm-data/appdata/freefilesync:/config
+      - /home/doc/swarm-data/appdata:/storage
+      - /home/doc/swarm/appdata:/nfs/appdata
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.hostname == p0
+networks:
+  homelab:
+    external: true
