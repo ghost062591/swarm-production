@@ -23,17 +23,19 @@ services:
     - paperless-secret-key
     - paperless-admin-pass
     environment:
+    - PAPERLESS_DBPASS_FILE=/run/secrets/postgres-master
+    - PAPERLESS_SECRET_KEY_FILE=/run/secrets/paperless-secret-key  
+    - PAPERLESS_ADMIN_PASSWORD_FILE=/run/secrets/paperless-admin-pass
+    - PAPERLESS_URLS=https://docs.frostlabs.me
+    - PAPERLESS_ALLOWED_HOSTS=docs.frostlabs.me,docs.frostlabs.home
+    - PAPERLESS_CSRF_TRUSTED_ORIGINS=https://docs.frostlabs.me,https://docs.frostlabs.home
     - PAPERLESS_REDIS=redis://paperless_redis:6379
-    - PAPERLESS_DBHOST=http://10.0.4.10
+    - PAPERLESS_DBHOST=10.0.4.10                    # Fixed: removed http://
     - PAPERLESS_DBPORT=5432
     - PAPERLESS_DBNAME=paperless
     - PAPERLESS_DBUSER=admin
-    - PAPERLESS_DBPASS_FILE=/run/secrets/postgres-master
-    - PAPERLESS_SECRET_KEY_FILE=/run/secrets/paperless-secret-key
     - PAPERLESS_TIME_ZONE=America/New_York
     - PAPERLESS_OCR_LANGUAGE=eng
-    - PAPERLESS_URLS=https://docs.frostlabs.home
-    - PAPERLESS_ALLOWED_HOSTS=docs.frostlabs.home
     - PAPERLESS_CONSUMER_POLLING=5
     - PAPERLESS_CONSUMER_DELETE_DUPLICATES=true
     - PAPERLESS_CONSUMER_RECURSIVE=true
@@ -41,7 +43,6 @@ services:
     - PAPERLESS_CONSUMER_IGNORE_PATTERNS=[".DS_Store","._*",".stfolder",".stversions","Thumbs.db"]
     - PAPERLESS_ENABLE_CLASSIFIER=true
     - PAPERLESS_ADMIN_USER=admin
-    - PAPERLESS_ADMIN_PASSWORD_FILE=/run/secrets/paperless-admin-pass
     - PAPERLESS_ADMIN_MAIL=john.allisonwin@outlook.com
     networks:
     - homelab
@@ -50,12 +51,13 @@ services:
       placement:
         constraints:
         - node.hostname == p0
-    depends_on:
-    - postgres
+    depends_on:                                      # Fixed: removed postgres dependency
     - paperless_redis
+
 networks:
   homelab:
     external: true
+
 secrets:
   paperless-admin-pass:
     external: true
