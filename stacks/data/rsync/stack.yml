@@ -17,7 +17,7 @@ services:
         constraints: [node.role == manager]
     volumes:
       - /home/doc/swarm-data/appdata:/source:ro
-      - /home/doc/swarm/appdata:/destination
+      - /home/doc/backups:/destination
       - /home/doc/swarm/swarm-production/conf/rsync-conf/excludes.txt:/excludes.txt:ro
     networks:
       - homelab
