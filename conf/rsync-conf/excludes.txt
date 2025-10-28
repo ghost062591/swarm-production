@@ -1,0 +1,7 @@
+*.tmp
+*.log
+cache/
+temp/
+*.lock
+lost+found/
+traefik/certificates/acme.json
