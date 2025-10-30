@@ -11,9 +11,6 @@ services:
     - /home/doc/swarm-data/appdata/webfiles/production/taylors-development:/usr/share/nginx/html:ro
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.role == worker
 networks:
   homelab:
     external: true

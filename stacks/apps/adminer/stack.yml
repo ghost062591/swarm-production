@@ -10,9 +10,6 @@ services:
     - ADMINER_DESIGN=nette
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.hostname == p0
 networks:
   homelab:
     external: true

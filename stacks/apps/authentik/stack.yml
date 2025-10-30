@@ -10,9 +10,6 @@ services:
     - homelab
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.hostname == p0
 
   authentik_server:
     image: ghcr.io/goauthentik/server:2025.10.0
@@ -38,9 +35,6 @@ services:
     - homelab
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.hostname == p0
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.authentik.rule=Host(`auth.frostlabs.me`)"
@@ -75,9 +69,6 @@ services:
     - homelab
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.hostname == p0
     depends_on:
     - redis
 

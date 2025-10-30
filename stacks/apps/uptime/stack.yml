@@ -14,9 +14,10 @@ services:
       retries: 3
       start_period: 60s
     deploy:
-      placement:
-        constraints: [node.hostname == p0]
       replicas: 1
+      placement:
+        preferences:
+        - spread: node.hostname
       restart_policy:
         condition: on-failure
         delay: 10s
