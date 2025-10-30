@@ -3,8 +3,19 @@ services:
     image: redis:alpine
     networks:
     - homelab
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     deploy:
       replicas: 1
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
 
   paperless_webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
@@ -43,8 +54,20 @@ services:
     - PAPERLESS_ADMIN_MAIL=john.allisonwin@outlook.com
     networks:
     - homelab
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
     deploy:
       replicas: 1
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
+        reservations:
+          memory: 1G
     depends_on:                                      # Fixed: removed postgres dependency
     - paperless_redis
 

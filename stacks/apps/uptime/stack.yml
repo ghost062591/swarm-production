@@ -29,7 +29,7 @@ services:
         order: start-first
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.uptime-kuma.rule=Host(`status.bitfrost.me`)"
+        - "traefik.http.routers.uptime-kuma.rule=Host(`status.frostlabs.me`)"
         - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
         - "traefik.http.routers.uptime-kuma.tls.certresolver=cloudflare"
         - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
