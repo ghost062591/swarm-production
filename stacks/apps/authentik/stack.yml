@@ -64,7 +64,7 @@ services:
         - "traefik.http.routers.authentik.entrypoints=websecure"
         - "traefik.http.routers.authentik.tls.certresolver=cloudflare"
         - "traefik.http.services.authentik.loadbalancer.server.port=9000"
-        - "traefik.docker.network=homelab"
+        - "traefik.swarm.network=homelab"
     depends_on:
     - redis
 

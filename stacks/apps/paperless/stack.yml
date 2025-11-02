@@ -20,7 +20,7 @@ services:
   paperless_webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     ports:
-    - 8000:8000
+    - 8011:8000
     volumes:
     - /home/doc/swarm-data/appdata/paperless/data:/usr/src/paperless/data
     - /home/doc/swarm-data/appdata/paperless/media:/usr/src/paperless/media
@@ -34,9 +34,12 @@ services:
     - PAPERLESS_DBPASS_FILE=/run/secrets/postgres-master
     - PAPERLESS_SECRET_KEY_FILE=/run/secrets/paperless-secret-key  
     - PAPERLESS_ADMIN_PASSWORD_FILE=/run/secrets/paperless-admin-pass
-    - PAPERLESS_URLS=https://docs.frostlabs.me
-    - PAPERLESS_ALLOWED_HOSTS=docs.frostlabs.me,docs.frostlabs.home
-    - PAPERLESS_CSRF_TRUSTED_ORIGINS=https://docs.frostlabs.me,https://docs.frostlabs.home
+    # - PAPERLESS_URLS=https://docs.frostlabs.me
+    # - PAPERLESS_ALLOWED_HOSTS=docs.frostlabs.me,docs.frostlabs.home
+    # - PAPERLESS_CSRF_TRUSTED_ORIGINS=https://docs.frostlabs.me,https://docs.frostlabs.home
+    - PAPERLESS_URLS=http://10.0.4.11:8011
+    # - PAPERLESS_ALLOWED_HOSTS=10.0.4.11
+    # - PAPERLESS_CSRF_TRUSTED_ORIGINS=http://10.0.4.11:8011
     - PAPERLESS_REDIS=redis://paperless_redis:6379
     - PAPERLESS_DBHOST=10.0.4.10                    # Fixed: removed http://
     - PAPERLESS_DBPORT=5432
