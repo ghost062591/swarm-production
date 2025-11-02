@@ -1,1 +1,2 @@
 conf/traefik-conf/dynamic.yml
+stacks/apps/vikunja/config.yml
