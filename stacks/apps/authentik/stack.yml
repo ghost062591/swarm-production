@@ -3,7 +3,7 @@ services:
     image: redis:alpine
     command: --save 60 1 --loglevel warning
     volumes:
-    - /home/doc/swarm-data/appdata/authentik/redis:/data
+    - /home/doc/projects/swarm-data/appdata/authentik/redis:/data
     ports:
     - 6379:6379
     networks:
@@ -39,8 +39,8 @@ services:
     - auth-key
     - postgres-master
     volumes:
-    - /home/doc/swarm-data/appdata/authentik/media:/media
-    - /home/doc/swarm-data/appdata/authentik/templates:/templates
+    - /home/doc/projects/swarm-data/appdata/authentik/media:/media
+    - /home/doc/projects/swarm-data/appdata/authentik/templates:/templates
     - /var/run/docker.sock:/var/run/docker.sock
     networks:
     - homelab
@@ -85,8 +85,8 @@ services:
     - auth-key
     - postgres-master
     volumes:
-    - /home/doc/swarm-data/appdata/authentik/media:/media
-    - /home/doc/swarm-data/appdata/authentik/templates:/templates
+    - /home/doc/projects/swarm-data/appdata/authentik/media:/media
+    - /home/doc/projects/swarm-data/appdata/authentik/templates:/templates
     - /var/run/docker.sock:/var/run/docker.sock
     networks:
     - homelab

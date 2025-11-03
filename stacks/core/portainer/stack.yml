@@ -3,7 +3,7 @@ services:
     image: portainer/portainer-ce:latest
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     volumes:
-    - /home/doc/swarm-data/appdata/portainer:/data
+    - /home/doc/projects/swarm-data/appdata/portainer:/data
     networks:
     - homelab
     deploy:

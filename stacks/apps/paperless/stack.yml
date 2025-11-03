@@ -22,10 +22,10 @@ services:
     ports:
     - 8011:8000
     volumes:
-    - /home/doc/swarm-data/appdata/paperless/data:/usr/src/paperless/data
-    - /home/doc/swarm-data/appdata/paperless/media:/usr/src/paperless/media
-    - /home/doc/swarm-data/appdata/paperless/export:/usr/src/paperless/export
-    - /home/doc/swarm-data/appdata/paperless/consume:/usr/src/paperless/consume
+    - /home/doc/projects/swarm-data/appdata/paperless/data:/usr/src/paperless/data
+    - /home/doc/projects/swarm-data/appdata/paperless/media:/usr/src/paperless/media
+    - /home/doc/projects/swarm-data/appdata/paperless/export:/usr/src/paperless/export
+    - /home/doc/projects/swarm-data/appdata/paperless/consume:/usr/src/paperless/consume
     secrets:
     - postgres-master
     - paperless-secret-key

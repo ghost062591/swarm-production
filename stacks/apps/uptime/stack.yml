@@ -2,7 +2,7 @@ services:
   uptime-kuma:
     image: louislam/uptime-kuma:1.23.16
     volumes:
-      - /home/doc/swarm-data/appdata/uptime:/app/data
+      - /home/doc/projects/swarm-data/appdata/uptime:/app/data
     environment:
       - TZ=America/New_York
     networks:

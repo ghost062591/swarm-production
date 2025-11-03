@@ -1,0 +1,114 @@
+networks:
+  homelab:
+    external: true
+  outline_internal:
+    driver: overlay
+    attachable: true
+
+services:
+  outline:
+    image: outlinewiki/outline:latest
+    environment:
+      - PGSSLMODE=disable
+      - SECRET_KEY=2821b95392ba4ead8acb1882653eb217545ee267099608dee92ecde2cf9a7323
+      - UTILS_SECRET=cd5dab7c54b92603ba44bcab8a49e5a0f816b11a5b75ef25fe73ebb13633cae4
+      - DATABASE_URL=postgres://admin:AllOfTheStars%2B1@10.0.4.10:5432/outline
+      - REDIS_URL=redis://redis:6379
+      - URL=https://flow.frostlabs.me
+      - PORT=3000
+      - FILE_STORAGE=local
+      - FILE_STORAGE_LOCAL_ROOT_DIR=/var/lib/outline/data
+      - FILE_STORAGE_UPLOAD_MAX_SIZE=26214400
+      # OIDC/SSO Configuration for Authentik
+      - OIDC_CLIENT_ID=9zCd8wzJFBv3oRYmdJXKWVokI0P3dx0HhuJB2yST
+      - OIDC_CLIENT_SECRET=fQpA7KFeDO2x8HKcQ5lOKFvB4HqyXcUvwUpow20bIOUBEZqoZ5hekkYS2kJ7BR2XayrOevq1sd4cC7Nw3mO1xz2jFXw0CiuhfNQTdMF35Zz2IXKbsNvVHU0Z1hYFjhlG
+      - OIDC_AUTH_URI=https://auth.frostlabs.me/application/o/authorize/
+      - OIDC_TOKEN_URI=https://auth.frostlabs.me/application/o/token/
+      - OIDC_USERINFO_URI=https://auth.frostlabs.me/application/o/userinfo/
+      - OIDC_LOGOUT_URI=https://auth.frostlabs.me/application/o/outline/end-session/
+      - OIDC_USERNAME_CLAIM=preferred_username
+      - OIDC_DISPLAY_NAME=Authentik
+      - OIDC_SCOPES=openid profile email
+    volumes:
+      - /home/doc/projects/swarm-data/appdata/outline/data:/var/lib/outline/data
+    networks:
+      - homelab
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == p0
+      restart_policy:
+        condition: any
+      # resources:
+      #   limits:
+      #     memory: 1G
+      #     cpus: '1.0'
+      #   reservations:
+      #     memory: 512M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=homelab"
+        - "traefik.http.routers.outline.rule=Host(`flow.frostlabs.me`)"
+        - "traefik.http.routers.outline.entrypoints=websecure"
+        - "traefik.http.routers.outline.tls=true"
+        - "traefik.http.routers.outline.tls.certresolver=cloudflare"
+        - "traefik.http.services.outline.loadbalancer.server.port=3000"
+    depends_on:
+      - redis
+
+  # postgres:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: outline
+  #     POSTGRES_PASSWORD: outline_pass
+  #     POSTGRES_DB: outline
+  #   volumes:
+  #     - /home/doc/projects/swarm-data/appdata/outline/postgres:/var/lib/postgresql/data
+  #   networks:
+  #     - outline_internal
+  #   deploy:
+  #     replicas: 1
+  #     placement:
+  #       constraints:
+  #         - node.hostname == p0
+  #     restart_policy:
+  #       condition: on-failure
+  #       delay: 5s
+  #       max_attempts: 3
+  #     resources:
+  #       limits:
+  #         memory: 1G
+  #         cpus: '0.5'
+  #       reservations:
+  #         memory: 256M
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U outline -d outline"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - /home/doc/projects/swarm-data/appdata/outline/redis:/data
+    networks:
+      - homelab
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == p0
+    #   restart_policy:
+    #     condition: on-failure
+    #     delay: 5s
+    #   resources:
+    #     limits:
+    #       memory: 256M
+    #     reservations:
+    #       memory: 128M
+    # healthcheck:
+    #   test: ["CMD", "redis-cli", "ping"]
+    #   interval: 10s
+    #   timeout: 3s
+    #   retries: 3

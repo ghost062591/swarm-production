@@ -1,2 +1,6 @@
 conf/traefik-conf/dynamic.yml
 stacks/apps/vikunja/config.yml
+stacks/core/traefik/stack.yml.backup-20251103-150708
+stacks/core/traefik/TrustCA-Instructions.md
+.gitignore
+conf/traefik-local-conf/dynamic.yml

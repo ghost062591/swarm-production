@@ -16,7 +16,7 @@ services:
       placement:
         constraints: [node.role == manager]
     volumes:
-      - /home/doc/swarm-data/appdata:/source:ro
+      - /home/doc/projects/backups:/source:ro
       - /home/doc/backups:/destination
       - /home/doc/swarm/swarm-production/conf/rsync-conf/excludes.txt:/excludes.txt:ro
     networks:

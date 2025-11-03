@@ -1,5 +1,5 @@
 services:
-  traefik:
+  traefik-local:
     image: traefik:v3.5
     command:
     - --api.dashboard=true
@@ -7,7 +7,7 @@ services:
     - --ping=true
     - --entrypoints.web.address=:80
     - --entrypoints.websecure.address=:443
-    - --entrypoints.local.address=:8443
+    - --entrypoints.websecure.http3=false
     - --entrypoints.web.http.redirections.entrypoint.to=websecure
     - --entrypoints.web.http.redirections.entrypoint.scheme=https
     - --providers.swarm=true
@@ -16,10 +16,6 @@ services:
     - --providers.swarm.watch=true
     - --providers.file.directory=/etc/traefik/dynamic
     - --providers.file.watch=true
-    - --certificatesresolvers.cloudflare.acme.dnschallenge=true
-    - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
-    - --certificatesresolvers.cloudflare.acme.email=john.allisonwin@outlook.com
-    - --certificatesresolvers.cloudflare.acme.storage=/certificates/acme.json
     - --log.level=DEBUG
     - --accesslog=true
     ports:
@@ -29,20 +25,13 @@ services:
     - target: 443
       published: 443
       mode: host
-    - target: 8443
-      published: 8443
-      mode: host
     - target: 8080
-      published: 8082
+      published: 8083
       mode: host
-    environment:
-    - CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_api_token
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /home/doc/projects/swarm-data/appdata/traefik/certificates:/certificates
-    - /home/doc/projects/swarm/swarm-production/conf/traefik-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
-    secrets:
-    - cloudflare_api_token
+    - /home/doc/projects/swarm/swarm-production/conf/traefik-local-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
     networks:
     - homelab
     healthcheck:
@@ -56,7 +45,7 @@ services:
       replicas: 1
       placement:
         constraints:
-        - node.hostname == p0
+        - node.hostname == p1
       resources:
         limits:
           memory: 512M
@@ -65,16 +54,12 @@ services:
           memory: 256M
       labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`proxy.frostlabs.me`)"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      - "traefik.http.routers.traefik-local.rule=Host(`proxy.home.frostlabs.me`)"
+      - "traefik.http.routers.traefik-local.entrypoints=websecure"
+      - "traefik.http.routers.traefik-local.tls=true"
+      - "traefik.http.routers.traefik-local.service=api@internal"
+      - "traefik.http.services.traefik-local.loadbalancer.server.port=8080"
 
 networks:
   homelab:
-    external: true
-
-secrets:
-  cloudflare_api_token:
     external: true
