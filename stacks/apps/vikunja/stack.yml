@@ -24,7 +24,7 @@ services:
       - vikunja-jwt
     volumes:
       - /home/doc/projects/swarm-data/appdata/vikunja/files:/app/vikunja/files
-      - /home/doc/projects/swarm/swarm-production/stacks/apps/vikunja/config.yml:/etc/vikunja/config.yml:ro
+      - /home/doc/projects/swarm/stacks/apps/vikunja/config.yml:/etc/vikunja/config.yml:ro
     networks:
       - homelab
     # healthcheck:
