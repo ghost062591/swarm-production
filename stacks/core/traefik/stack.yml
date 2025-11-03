@@ -40,7 +40,7 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /home/doc/projects/swarm-data/appdata/traefik/certificates:/certificates
-    - /home/doc/projects/swarm/swarm-production/conf/traefik-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
+    - /home/doc/projects/swarm/conf/traefik-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
     secrets:
     - cloudflare_api_token
     networks:
