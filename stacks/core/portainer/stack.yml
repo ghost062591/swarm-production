@@ -6,6 +6,8 @@ services:
     - /home/doc/projects/swarm-data/appdata/portainer:/data
     networks:
     - homelab
+    ports:
+    - 9000:9000
     deploy:
       mode: replicated
       replicas: 1
@@ -15,9 +17,10 @@ services:
       labels:
       - "traefik.enable=true"
       - "traefik.swarm.network=homelab"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.frostlabs.me`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.home.frostlabs.me`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
-      - "traefik.http.routers.portainer.tls.certresolver=cloudflare"
+      - "traefik.http.routers.portainer.tls=true"
+      - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
   agent:
