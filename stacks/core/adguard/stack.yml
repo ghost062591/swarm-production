@@ -4,14 +4,15 @@ services:
     ports:
     - target: 53
       published: 53
-      protocol: tcp
+      protocol: udp
       mode: host
     - target: 53
       published: 53
-      protocol: udp
+      protocol: tcp
       mode: host
     - target: 3000
       published: 3000
+      protocol: tcp
       mode: host
     volumes:
     - /home/doc/projects/swarm-data/appdata/adguard/work:/opt/adguardhome/work
