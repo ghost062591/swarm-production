@@ -19,8 +19,6 @@ services:
 
   paperless_webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
-    ports:
-    - 8011:8000
     volumes:
     - /home/doc/projects/swarm-data/appdata/paperless/data:/usr/src/paperless/data
     - /home/doc/projects/swarm-data/appdata/paperless/media:/usr/src/paperless/media
@@ -37,9 +35,9 @@ services:
     # - PAPERLESS_URLS=https://docs.frostlabs.me
     # - PAPERLESS_ALLOWED_HOSTS=docs.frostlabs.me,docs.frostlabs.home
     # - PAPERLESS_CSRF_TRUSTED_ORIGINS=https://docs.frostlabs.me,https://docs.frostlabs.home
-    - PAPERLESS_URLS=http://10.0.4.11:8011
-    # - PAPERLESS_ALLOWED_HOSTS=10.0.4.11
-    # - PAPERLESS_CSRF_TRUSTED_ORIGINS=http://10.0.4.11:8011
+    - PAPERLESS_URLS=https://docs.home.frostlabs.me
+    - PAPERLESS_ALLOWED_HOSTS=docs.home.frostlabs.me
+    - PAPERLESS_CSRF_TRUSTED_ORIGINS=https://docs.home.frostlabs.me
     - PAPERLESS_REDIS=redis://paperless_redis:6379
     - PAPERLESS_DBHOST=10.0.4.10                    # Fixed: removed http://
     - PAPERLESS_DBPORT=5432
@@ -71,6 +69,14 @@ services:
           cpus: '2.0'
         reservations:
           memory: 1G
+      labels:
+      - "traefik.enable=true"
+      - "traefik.swarm.network=homelab"
+      - "traefik.http.routers.paperless.rule=Host(`docs.home.frostlabs.me`)"
+      - "traefik.http.routers.paperless.entrypoints=websecure"
+      - "traefik.http.routers.paperless.tls=true"
+      - "traefik.http.routers.paperless.service=paperless"
+      - "traefik.http.services.paperless.loadbalancer.server.port=8000"
     depends_on:                                      # Fixed: removed postgres dependency
     - paperless_redis
 
