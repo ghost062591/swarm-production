@@ -1,27 +1,7 @@
 services:
   traefik:
     image: traefik:v3.5
-    command:
-    - --api.dashboard=true
-    - --api.insecure=true
-    - --ping=true
-    - --entrypoints.web.address=:80
-    - --entrypoints.websecure.address=:443
-    - --entrypoints.local.address=:8443
-    - --entrypoints.web.http.redirections.entrypoint.to=websecure
-    - --entrypoints.web.http.redirections.entrypoint.scheme=https
-    - --providers.swarm=true
-    - --providers.swarm.exposedByDefault=false
-    - --providers.swarm.network=homelab
-    - --providers.swarm.watch=true
-    - --providers.file.directory=/etc/traefik/dynamic
-    - --providers.file.watch=true
-    - --certificatesresolvers.cloudflare.acme.dnschallenge=true
-    - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
-    - --certificatesresolvers.cloudflare.acme.email=john.allisonwin@outlook.com
-    - --certificatesresolvers.cloudflare.acme.storage=/certificates/acme.json
-    - --log.level=DEBUG
-    - --accesslog=true
+    # Remove all command arguments - using static config file instead
     ports:
     - target: 80
       published: 80
@@ -40,13 +20,14 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /home/doc/projects/swarm-data/appdata/traefik/certificates:/certificates
+    - /home/doc/projects/swarm/conf/traefik-conf/static.yml:/etc/traefik/traefik.yml:ro
     - /home/doc/projects/swarm/conf/traefik-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
     secrets:
     - cloudflare_api_token
     networks:
     - homelab
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/ping"]
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/ping" ]
       interval: 30s
       timeout: 5s
       retries: 3

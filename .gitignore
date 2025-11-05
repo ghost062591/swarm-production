@@ -4,3 +4,4 @@ stacks/core/traefik/stack.yml.backup-20251103-150708
 stacks/core/traefik/TrustCA-Instructions.md
 .gitignore
 conf/traefik-local-conf/dynamic.yml
+conf/traefik-conf/static.yml
