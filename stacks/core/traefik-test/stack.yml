@@ -42,7 +42,7 @@ services:
     - "--entrypoints.websecure.http.tls=true"
 
     # Attach dynamic TLS file
-    - "--providers.file.filename=/dynamic/tls.yaml"
+    - "--providers.file.filename=/dynamic/dynamic.yml"
 
     # Providers
 
