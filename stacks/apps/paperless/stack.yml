@@ -71,7 +71,7 @@ services:
       - "traefik.swarm.network=homelab"
       - "traefik.http.routers.paperless.rule=Host(`docs.frostlabs.me`)"
       - "traefik.http.routers.paperless.entrypoints=websecure"
-      - "traefik.http.routers.paperless.tls=true"
+      - "traefik.http.routers.paperless.tls.certResolver=cloudflare"
       - "traefik.http.routers.paperless.service=paperless"
       - "traefik.http.services.paperless.loadbalancer.server.port=8000"
     depends_on:
