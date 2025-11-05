@@ -3,24 +3,20 @@ services:
     image: alpine:latest
     user: "0:0"
     command: >
-      sh -c "
-      apk add --no-cache rsync &&
-      echo '0 2 * * * rsync -av --no-perms --no-owner --no-group --exclude-from=/excludes.txt /source/ /destination/ && echo \"Sync completed at $$(date)\"' | crontab - &&
-      echo 'Backup sync started. Daily sync at 2 AM.' &&
-      crond -f -l 2"
+      sh -c " apk add --no-cache rsync && echo '0 2 * * * rsync -av --no-perms --no-owner --no-group --exclude-from=/excludes.txt /source/ /destination/ && echo \"Sync completed at $$(date)\"' | crontab - && echo 'Backup sync started. Daily sync at 2 AM.' && crond -f -l 2"
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
         delay: 30s
       placement:
-        constraints: [node.role == manager]
+        constraints: [ node.role == manager ]
     volumes:
-      - /home/doc/projects/swarm-data/appdata:/source:ro
-      - /home/doc/backups:/destination
-      - /home/doc/projects/swarm/conf/rsync-conf/excludes.txt:/excludes.txt:ro
+    - /home/doc/projects/swarm-data/appdata:/source:ro
+    - /home/doc/projects/backups:/destination
+    - /home/doc/projects/swarm/conf/rsync-conf/excludes.txt:/excludes.txt:ro
     networks:
-      - homelab
+    - homelab
 networks:
   homelab:
     external: true
