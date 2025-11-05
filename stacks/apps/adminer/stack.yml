@@ -23,7 +23,7 @@ services:
           memory: 128M
       labels:
       # Local route
-      - traefik.enable=false
+      - traefik.enable=true
       - traefik.http.routers.adminer.rule=Host(`adminer.frostlabs.me`)
       - traefik.http.routers.adminer.entrypoints=websecure
       - traefik.http.routers.adminer.tls.certresolver=cloudflare

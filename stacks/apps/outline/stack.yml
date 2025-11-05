@@ -47,8 +47,8 @@ services:
       #   reservations:
       #     memory: 512M
       labels:
-      - "traefik.enable=falso"
-      - "traefik.docker.network=homelab"
+      - "traefik.enable=true"
+      - "traefik.swarm.network=homelab"
       - "traefik.http.routers.outline.rule=Host(`flow.frostlabs.me`)"
       - "traefik.http.routers.outline.entrypoints=websecure"
       - "traefik.http.routers.outline.tls=true"

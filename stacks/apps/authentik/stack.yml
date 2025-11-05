@@ -59,7 +59,7 @@ services:
         reservations:
           memory: 512M
       labels:
-      - "traefik.enable=false"
+      - "traefik.enable=true"
       - "traefik.http.routers.authentik.rule=Host(`auth.frostlabs.me`)"
       - "traefik.http.routers.authentik.entrypoints=websecure"
       - "traefik.http.routers.authentik.tls.certresolver=cloudflare"

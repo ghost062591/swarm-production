@@ -15,7 +15,7 @@ services:
         constraints:
         - node.hostname == p0
       labels:
-      - "traefik.enable=false"
+      - "traefik.enable=true"
       - "traefik.swarm.network=homelab"
       - "traefik.http.routers.portainer.rule=Host(`portainer.frostlabs.me`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
