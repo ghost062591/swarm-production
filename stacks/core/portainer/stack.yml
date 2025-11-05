@@ -12,10 +12,10 @@ services:
       mode: replicated
       replicas: 1
       placement:
-        constraints: 
-          - node.hostname == p0
+        constraints:
+        - node.hostname == p0
       labels:
-      - "traefik.enable=true"
+      - "traefik.enable=false"
       - "traefik.swarm.network=homelab"
       - "traefik.http.routers.portainer.rule=Host(`portainer.frostlabs.me`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"

@@ -4,7 +4,7 @@ services:
     networks:
     - homelab
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -30,7 +30,7 @@ services:
     - paperless-admin-pass
     environment:
     - PAPERLESS_DBPASS_FILE=/run/secrets/postgres-master
-    - PAPERLESS_SECRET_KEY_FILE=/run/secrets/paperless-secret-key  
+    - PAPERLESS_SECRET_KEY_FILE=/run/secrets/paperless-secret-key
     - PAPERLESS_ADMIN_PASSWORD_FILE=/run/secrets/paperless-admin-pass
     # - PAPERLESS_URLS=https://docs.frostlabs.me
     # - PAPERLESS_ALLOWED_HOSTS=docs.frostlabs.me,docs.frostlabs.home
@@ -39,7 +39,7 @@ services:
     - PAPERLESS_ALLOWED_HOSTS=docs.home.frostlabs.me
     - PAPERLESS_CSRF_TRUSTED_ORIGINS=https://docs.home.frostlabs.me
     - PAPERLESS_REDIS=redis://paperless_redis:6379
-    - PAPERLESS_DBHOST=10.0.4.10                    # Fixed: removed http://
+    - PAPERLESS_DBHOST=10.0.4.10
     - PAPERLESS_DBPORT=5432
     - PAPERLESS_DBNAME=paperless
     - PAPERLESS_DBUSER=admin
@@ -56,7 +56,7 @@ services:
     networks:
     - homelab
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -70,14 +70,14 @@ services:
         reservations:
           memory: 1G
       labels:
-      - "traefik.enable=true"
+      - "traefik.enable=false"
       - "traefik.swarm.network=homelab"
       - "traefik.http.routers.paperless.rule=Host(`docs.home.frostlabs.me`)"
       - "traefik.http.routers.paperless.entrypoints=websecure"
       - "traefik.http.routers.paperless.tls=true"
       - "traefik.http.routers.paperless.service=paperless"
       - "traefik.http.services.paperless.loadbalancer.server.port=8000"
-    depends_on:                                      # Fixed: removed postgres dependency
+    depends_on:
     - paperless_redis
 
 networks:

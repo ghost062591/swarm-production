@@ -9,7 +9,7 @@ services:
     networks:
     - homelab
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -45,7 +45,7 @@ services:
     networks:
     - homelab
     healthcheck:
-      test: ["CMD-SHELL", "ak healthcheck"]
+      test: [ "CMD-SHELL", "ak healthcheck" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -59,12 +59,12 @@ services:
         reservations:
           memory: 512M
       labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.authentik.rule=Host(`auth.frostlabs.me`)"
-        - "traefik.http.routers.authentik.entrypoints=websecure"
-        - "traefik.http.routers.authentik.tls.certresolver=cloudflare"
-        - "traefik.http.services.authentik.loadbalancer.server.port=9000"
-        - "traefik.swarm.network=homelab"
+      - "traefik.enable=false"
+      - "traefik.http.routers.authentik.rule=Host(`auth.frostlabs.me`)"
+      - "traefik.http.routers.authentik.entrypoints=websecure"
+      - "traefik.http.routers.authentik.tls.certresolver=cloudflare"
+      - "traefik.http.services.authentik.loadbalancer.server.port=9000"
+      - "traefik.swarm.network=homelab"
     depends_on:
     - redis
 

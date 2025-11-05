@@ -2,13 +2,13 @@ services:
   uptime-kuma:
     image: louislam/uptime-kuma:1.23.16
     volumes:
-      - /home/doc/projects/swarm-data/appdata/uptime:/app/data
+    - /home/doc/projects/swarm-data/appdata/uptime:/app/data
     environment:
-      - TZ=America/New_York
+    - TZ=America/New_York
     networks:
-      - homelab
+    - homelab
     healthcheck:
-      test: ["CMD", "node", "/app/extra/healthcheck.js"]
+      test: [ "CMD", "node", "/app/extra/healthcheck.js" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -28,12 +28,12 @@ services:
         failure_action: rollback
         order: start-first
       labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.uptime-kuma.rule=Host(`status.frostlabs.me`)"
-        - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
-        - "traefik.http.routers.uptime-kuma.tls.certresolver=cloudflare"
-        - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
-        - "traefik.docker.network=homelab"
+      - "traefik.enable=false"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`status.frostlabs.me`)"
+      - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
+      - "traefik.http.routers.uptime-kuma.tls.certresolver=cloudflare"
+      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
+      - "traefik.docker.network=homelab"
 
 networks:
   homelab:
