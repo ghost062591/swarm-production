@@ -9,8 +9,6 @@ services:
       restart_policy:
         condition: on-failure
         delay: 30s
-      placement:
-        constraints: [ node.role == manager ]
     volumes:
     - /home/doc/projects/swarm-data/appdata:/source:ro
     - /home/doc/projects/backups:/destination
