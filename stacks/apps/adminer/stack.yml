@@ -25,6 +25,7 @@ services:
       - traefik.http.routers.adminer.rule=Host(`miner.frostlabs.me`)
       - traefik.http.routers.adminer.entrypoints=websecure
       - traefik.http.routers.adminer.tls.certresolver=cloudflare
+      - traefik.http.routers.adminer.middlewares=tailscale-whitelist@file
       - traefik.http.services.adminer.loadbalancer.server.port=8080
       - traefik.swarm.network=homelab
 networks:
