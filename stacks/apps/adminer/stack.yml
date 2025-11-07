@@ -6,6 +6,7 @@ services:
     environment:
     - ADMINER_DEFAULT_SERVER=10.0.4.10
     - ADMINER_DESIGN=nette
+    - TZ=America/New_York
     healthcheck:
       test: [ "CMD", "php", "-r", "if (file_get_contents('http://localhost:8080')) exit(0); exit(1);" ]
       interval: 30s
@@ -22,12 +23,11 @@ services:
       labels:
       # Local route
       - traefik.enable=true
-      - traefik.http.routers.adminer.rule=Host(`miner.frostlabs.me`)
-      - traefik.http.routers.adminer.entrypoints=websecure
-      - traefik.http.routers.adminer.tls.certresolver=cloudflare
-      - traefik.http.routers.adminer.middlewares=tailscale-whitelist@file
-      - traefik.http.services.adminer.loadbalancer.server.port=8080
       - traefik.swarm.network=homelab
+      - traefik.http.routers.adminer.rule=Host(`miner.swarm.home`)
+      - traefik.http.routers.adminer.entrypoints=web,websecure
+      - traefik.http.routers.adminer.tls=true
+      - traefik.http.services.adminer.loadbalancer.server.port=8080
 networks:
   homelab:
     external: true

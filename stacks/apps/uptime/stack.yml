@@ -7,6 +7,8 @@ services:
     - TZ=America/New_York
     networks:
     - homelab
+    ports:
+    - 3001:3001
     healthcheck:
       test: [ "CMD", "node", "/app/extra/healthcheck.js" ]
       interval: 30s
@@ -29,11 +31,11 @@ services:
         order: start-first
       labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.uptime-kuma.rule=Host(`status.frostlabs.me`)"
-      - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
-      - "traefik.http.routers.uptime-kuma.tls.certresolver=cloudflare"
-      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
       - "traefik.swarm.network=homelab"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`status.swarm.home)"
+      - "traefik.http.routers.uptime-kuma.entrypoints=web,websecure"
+      - "traefik.http.routers.uptime-kuma.tls=true
+      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
 
 networks:
   homelab:

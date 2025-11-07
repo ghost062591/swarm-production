@@ -60,11 +60,12 @@ services:
           memory: 512M
       labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.authentik.rule=Host(`auth.frostlabs.me`)"
-      - "traefik.http.routers.authentik.entrypoints=websecure"
-      - "traefik.http.routers.authentik.tls.certresolver=cloudflare"
-      - "traefik.http.services.authentik.loadbalancer.server.port=9000"
       - "traefik.swarm.network=homelab"
+      - "traefik.http.routers.authentik.rule=Host(`auth.swam.home`)"
+      - "traefik.http.routers.authentik.entrypoints=web,websecure"
+      - "traefik.http.routers.authentik.tls=true"
+      - "traefik.http.services.authentik.loadbalancer.server.port=9000"
+
     depends_on:
     - redis
 

@@ -8,6 +8,7 @@ services:
     - DATABASE_URL=postgres://admin:AllOfTheStars%2B1@10.0.4.10:5432/outline
     - REDIS_URL=redis://redis:6379
     - URL=https://flow.frostlabs.me
+    - TZ=America/New_York
     - PORT=3000
     - FILE_STORAGE=local
     - FILE_STORAGE_LOCAL_ROOT_DIR=/var/lib/outline/data
@@ -39,10 +40,9 @@ services:
       labels:
       - "traefik.enable=true"
       - "traefik.swarm.network=homelab"
-      - "traefik.http.routers.outline.rule=Host(`flow.frostlabs.me`)"
+      - "traefik.http.routers.outline.rule=Host(`flow.swarm.home`)"
       - "traefik.http.routers.outline.entrypoints=websecure"
       - "traefik.http.routers.outline.tls=true"
-      - "traefik.http.routers.outline.tls.certresolver=cloudflare"
       - "traefik.http.services.outline.loadbalancer.server.port=3000"
     depends_on:
     - redis

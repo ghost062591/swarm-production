@@ -66,13 +66,6 @@ services:
           cpus: '2.0'
         reservations:
           memory: 1G
-      labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.paperless.rule=Host(`docs.frostlabs.me`)"
-      - "traefik.http.routers.paperless.entrypoints=websecure"
-      - "traefik.http.routers.paperless.tls.certresolver=cloudflare"
-      - "traefik.http.services.paperless.loadbalancer.server.port=8000"
-      - "traefik.swarm.network=homelab"
     depends_on:
     - paperless_redis
 
