@@ -7,8 +7,6 @@ services:
     - TZ=America/New_York
     networks:
     - homelab
-    ports:
-    - 3001:3001
     healthcheck:
       test: [ "CMD", "node", "/app/extra/healthcheck.js" ]
       interval: 30s
