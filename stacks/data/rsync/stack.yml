@@ -6,9 +6,6 @@ services:
       sh -c " apk add --no-cache rsync && echo '0 2 * * * rsync -av --no-perms --no-owner --no-group --exclude-from=/excludes.txt /source/ /destination/ && echo \"Sync completed at $$(date)\"' | crontab - && echo 'Backup sync started. Daily sync at 2 AM.' && crond -f -l 2"
     deploy:
       replicas: 1
-      placement:
-        constraints:
-        - node.hostname == p0
       restart_policy:
         condition: on-failure
         delay: 30s

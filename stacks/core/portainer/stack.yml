@@ -11,9 +11,6 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-      placement:
-        constraints:
-        - node.hostname == p0
       labels:
       - "traefik.enable=true"
       - "traefik.swarm.network=homelab"
