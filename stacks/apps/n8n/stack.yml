@@ -3,6 +3,8 @@ services:
     image: n8nio/n8n:latest
     networks:
     - homelab
+    ports:
+    - 5678:5678
     environment:
     - N8N_HOST=n8n.bitfrost.me
     - N8N_PORT=5678
