@@ -48,7 +48,8 @@ services:
     networks:
     - mediacms
     volumes:
-    - /home/doc/projects/swarm-data/appdata/mediacms/data:/home/mediacms.io/mediacms/
+    - /home/doc/projects/swarm-data/appdata/mediacms/media:/home/mediacms.io/mediacms/media_files
+    - /home/doc/projects/swarm-data/appdata/mediacms/static:/home/mediacms.io/mediacms/static
     environment:
       ENABLE_UWSGI: 'no'
       ENABLE_NGINX: 'no'
@@ -80,7 +81,8 @@ services:
     ports:
     - "8880:80"
     volumes:
-    - /home/doc/projects/swarm-data/appdata/mediacms/data:/home/mediacms.io/mediacms/
+    - /home/doc/projects/swarm-data/appdata/mediacms/media:/home/mediacms.io/mediacms/media_files
+    - /home/doc/projects/swarm-data/appdata/mediacms/static:/home/mediacms.io/mediacms/static
     environment:
       ENABLE_CELERY_BEAT: 'no'
       ENABLE_CELERY_SHORT: 'no'
@@ -112,7 +114,8 @@ services:
     networks:
     - mediacms
     volumes:
-    - /home/doc/projects/swarm-data/appdata/mediacms/data:/home/mediacms.io/mediacms/
+    - /home/doc/projects/swarm-data/appdata/mediacms/media:/home/mediacms.io/mediacms/media_files
+    - /home/doc/projects/swarm-data/appdata/mediacms/static:/home/mediacms.io/mediacms/static
     environment:
       ENABLE_UWSGI: 'no'
       ENABLE_NGINX: 'no'
@@ -139,7 +142,8 @@ services:
     networks:
     - mediacms
     volumes:
-    - /home/doc/projects/swarm-data/appdata/mediacms/data:/home/mediacms.io/mediacms/
+    - /home/doc/projects/swarm-data/appdata/mediacms/media:/home/mediacms.io/mediacms/media_files
+    - /home/doc/projects/swarm-data/appdata/mediacms/static:/home/mediacms.io/mediacms/static
     environment:
       ENABLE_UWSGI: 'no'
       ENABLE_NGINX: 'no'
