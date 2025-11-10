@@ -41,7 +41,7 @@ providers:
     watch: true
 
 # Certificate resolvers
-certresolver:
+certificatesResolvers:
   cloudflare:
     acme:
       email: john.allisonwin@outlook.com
@@ -49,8 +49,8 @@ certresolver:
       dnsChallenge:
         provider: cloudflare
         resolvers:
-        - 1.1.1.1:53
-        - 8.8.8.8:53
+          - 1.1.1.1:53
+          - 8.8.8.8:53
 
 # Logging
 log:
