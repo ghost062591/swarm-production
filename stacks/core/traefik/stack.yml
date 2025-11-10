@@ -21,8 +21,8 @@ services:
       source: /home/doc/projects/swarm/conf/traefik-conf/dynamic.yml
       target: /etc/traefik/dynamic/dynamic.yml
     - type: bind
-      source: /home/doc/projects/swarm-data/appdata/traefik/certificates
-      target: /certificates
+      source: /home/doc/projects/swarm-data/appdata/traefik/certificates/acme.json
+      target: /certificates/acme.json
     secrets:
     - cloudflare_api_token
     networks:
@@ -38,7 +38,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.hostname == p0
+        - node.hostname == p0
 
 networks:
   homelab:
