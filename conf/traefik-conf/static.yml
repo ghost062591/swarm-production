@@ -1,0 +1,56 @@
+# /etc/traefik/traefik.yml or /etc/traefik/static.yml
+
+# Global configuration
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+# API and Dashboard
+api:
+  dashboard: true
+  insecure: true
+
+# Health check endpoint
+ping: {}
+
+# Entry points
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entrypoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":443"
+
+# Providers
+providers:
+  # Docker Swarm provider
+  swarm:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: homelab
+    watch: true
+
+  # File provider for dynamic configuration
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+# Certificate resolvers
+# certificatesResolvers:
+#   cloudflare:
+#     acme:
+#       email: john.allisonwin@outlook.com
+#       storage: /certificates/acme.json
+#       dnsChallenge:
+#         provider: cloudflare
+
+# Logging
+log:
+  level: DEBUG
+
+accessLog: {}
