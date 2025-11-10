@@ -1,9 +1,9 @@
 # Traefik Dynamic Configuration for External Services
 # This file handles routing to services NOT managed by Docker Swarm
 http:
-  #-----------------------------------------------------------------------------------    
+  #-----------------------------------------------------------------------------------
   #                          EXTERNAL SERVICES SECTION
-  #-----------------------------------------------------------------------------------     
+  #-----------------------------------------------------------------------------------
   services:
     unraid:
       loadBalancer:
@@ -14,9 +14,9 @@ http:
     #     servers:
     #     - url: "http://10.0.4.10:8096"
 
-    #-----------------------------------------------------------------------------------    
+    #-----------------------------------------------------------------------------------
     #                          ROUTERS SECTION
-    #-----------------------------------------------------------------------------------   
+    #-----------------------------------------------------------------------------------
   routers:
     # Local VPN-only services (*.swarm.home)
     unraid-local:
@@ -26,6 +26,19 @@ http:
       - websecure
       service: unraid
       tls: {}
+
+    # Public-facing services (*.frostlabs.me)
+    # Example: To add a public service, uncomment and customize:
+    # my-public-service:
+    #   rule: "Host(`myapp.frostlabs.me`)"
+    #   entryPoints:
+    #   - websecure
+    #   service: my-service-name
+    #   tls:
+    #     certResolver: cloudflare
+    #   middlewares:
+    #   - authentik  # Optional: Add authentication
+
     # emby:
     #   rule: "Host(`movies.swarm.home`)"
     #   entryPoints:
@@ -34,10 +47,11 @@ http:
     #   service: emby
     #   tls: {}
 
-    #-----------------------------------------------------------------------------------    
+    #-----------------------------------------------------------------------------------
     #                          MIDDLEWARES SECTION
-    #-----------------------------------------------------------------------------------   
+    #-----------------------------------------------------------------------------------
   middlewares:
+    # Authentik forward auth for protecting services
     authentik:
       forwardAuth:
         address: "http://authentik_server:9000/outpost.goauthentik.io/auth/traefik"
@@ -48,3 +62,22 @@ http:
         - X-authentik-email
         - X-authentik-name
         - X-authentik-uid
+
+    # Security headers for public-facing services
+    security-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        sslRedirect: true
+        forceSTSHeader: true
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+
+    # Rate limiting for public services
+    rate-limit:
+      rateLimit:
+        average: 100
+        period: 1s
+        burst: 50

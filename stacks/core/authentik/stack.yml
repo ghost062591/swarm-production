@@ -61,9 +61,11 @@ services:
       labels:
       - "traefik.enable=true"
       - "traefik.swarm.network=homelab"
+      # Public-facing domain with Let's Encrypt certificate
       - "traefik.http.routers.authentik.rule=Host(`auth.frostlabs.me`)"
       - "traefik.http.routers.authentik.entrypoints=websecure"
-      - "traefik.http.routers.authentik.tls=certificatesResolvers=cloudflare"
+      - "traefik.http.routers.authentik.tls=true"
+      - "traefik.http.routers.authentik.tls.certresolver=cloudflare"
       - "traefik.http.services.authentik.loadbalancer.server.port=9000"
 
     depends_on:

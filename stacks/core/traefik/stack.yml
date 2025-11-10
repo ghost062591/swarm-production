@@ -10,9 +10,9 @@ services:
     - CF_DNS_API_TOKEN_FILE=/run/secrets/cloudflare_api_token
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
-    #
     - /home/doc/projects/swarm/conf/traefik-conf/static.yml:/etc/traefik/traefik.yml:ro
     - /home/doc/projects/swarm/conf/traefik-conf/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:rw
+    - /home/doc/projects/swarm-data/appdata/traefik/certificates:/certificates
     secrets:
     - cloudflare_api_token
     networks:
