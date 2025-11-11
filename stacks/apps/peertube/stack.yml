@@ -40,6 +40,7 @@ services:
       published: 1935
       mode: host
     volumes:
+    - /home/doc/projects/swarm-data/appdata/peertube/assets:/app/client/dist
     - /home/doc/projects/swarm-data/appdata/peertube/data:/data
     - /home/doc/projects/swarm-data/appdata/peertube/config:/config
     healthcheck:
