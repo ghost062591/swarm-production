@@ -16,7 +16,7 @@ services:
     - PEERTUBE_WEBSERVER_HOSTNAME=videos.frostlabs.me
     - PEERTUBE_WEBSERVER_PORT=443
     - PEERTUBE_WEBSERVER_HTTPS=true
-    - PEERTUBE_TRUST_PROXY=["127.0.0.1", "loopback", "172.18.0.0/16"]
+    - PEERTUBE_TRUST_PROXY=["127.0.0.1", "loopback", "10.0.1.0/24"]
     # SMTP configuration - Gmail
     - PEERTUBE_SMTP_HOSTNAME=smtp.gmail.com
     - PEERTUBE_SMTP_PORT=587
@@ -42,7 +42,7 @@ services:
     volumes:
     - /home/doc/projects/swarm-data/appdata/peertube/assets:/app/client/dist
     - /home/doc/projects/swarm-data/appdata/peertube/data:/data
-    - /home/doc/projects/swarm-data/appdata/peertube/config:/config
+    - /home/doc/projects/swarm-data/conf/peertube-conf/production.yaml:/var/www/peertube/config/production.yaml:ro
     healthcheck:
       test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000/api/v1/config" ]
       interval: 30s

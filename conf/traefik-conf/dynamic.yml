@@ -9,11 +9,14 @@ http:
       loadBalancer:
         servers:
         - url: "http://10.0.4.10:80"
-    # emby:
-    #   loadBalancer:
-    #     servers:
-    #     - url: "http://10.0.4.10:8096"
-
+      # emby:
+      #   loadBalancer:
+      #     servers:
+      #     - url: "http://10.0.4.10:8096"
+    peertube:
+      loadBalancer:
+        servers:
+        - url: "http://10.0.4.10:9000"
     #-----------------------------------------------------------------------------------
     #                          ROUTERS SECTION
     #-----------------------------------------------------------------------------------
@@ -27,26 +30,13 @@ http:
       service: unraid
       tls: {}
 
-    # Public-facing services (*.frostlabs.me)
-    # Example: To add a public service, uncomment and customize:
-    # my-public-service:
-    #   rule: "Host(`myapp.frostlabs.me`)"
-    #   entryPoints:
-    #   - websecure
-    #   service: my-service-name
-    #   tls:
-    #     certResolver: cloudflare
-    #   middlewares:
-    #   - authentik  # Optional: Add authentication
-
-    # emby:
-    #   rule: "Host(`movies.swarm.home`)"
-    #   entryPoints:
-    #   - web
-    #   - websecure
-    #   service: emby
-    #   tls: {}
-
+    peertube:
+      rule: "Host(`videos.frostlabs.me`)"
+      entryPoints:
+      - websecure
+      service: peertube
+      tls:
+        certResolver: cloudflare
     #-----------------------------------------------------------------------------------
     #                          MIDDLEWARES SECTION
     #-----------------------------------------------------------------------------------
