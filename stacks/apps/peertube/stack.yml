@@ -76,8 +76,6 @@ services:
 
   peertube-postgres:
     image: postgres:17-alpine
-    secrets:
-    - postgres-master
     networks:
     - homelab
     environment:
