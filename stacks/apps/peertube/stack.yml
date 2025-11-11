@@ -26,7 +26,7 @@ services:
     - PEERTUBE_ADMIN_EMAIL=frostlabs25@gmail.com
     # Secrets - loaded from Docker secrets as files
     - PEERTUBE_DB_SUFFIX=_prod
-    - PEERTUBE_SECRET=file:///run/secrets/peertube-key
+    - PEERTUBE_SECRET=dfd1cad851c1a5b795131fd2033d46ef80c809b5ac30a3ce8e69b049587138a2
     secrets:
     - postgres-master
     - peertube-key
