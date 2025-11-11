@@ -22,7 +22,7 @@ http:
     #-----------------------------------------------------------------------------------
   routers:
     # Local VPN-only services (*.swarm.home)
-    unraid-local:
+    unraid:
       rule: "Host(`unraid.frostlabs.me`)"
       entryPoints:
       - websecure
