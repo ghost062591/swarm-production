@@ -33,14 +33,14 @@ services:
     - gmail-app-password
     ports:
     - target: 9000
-      published: 9001
+      published: 9000
       mode: host
     - target: 1935
       published: 1935
       mode: host
     volumes:
-    - /home/doc/projects/unraid-appdata/PeerTube:/data
-    - /home/doc/projects/unraid-appdata/PeerTube:/config
+    - /home/doc/projects/swarm-data/appdata/peertube:/data
+    - /home/doc/projects/swarm-data/appdata/peertube:/config
     healthcheck:
       test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000/api/v1/config" ]
       interval: 30s
