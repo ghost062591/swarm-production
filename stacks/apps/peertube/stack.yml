@@ -8,7 +8,7 @@ services:
     - POSTGRES_USER=admin
     - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-master
     - POSTGRES_DB=peertube
-    - POSTGRES_HOSTNAME=postgresSQL
+    - POSTGRES_HOSTNAME=10.0.4.10
     # Redis configuration
     - REDIS_HOSTNAME=peertube-redis
     # PeerTube configuration
@@ -33,7 +33,7 @@ services:
     - gmail-app-password
     ports:
     - target: 9000
-      published: 9000
+      published: 9001
       mode: host
     - target: 1935
       published: 1935
@@ -42,7 +42,7 @@ services:
     - /home/doc/projects/unraid-appdata/PeerTube:/data
     - /home/doc/projects/unraid-appdata/PeerTube:/config
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000/api/v1/config"]
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000/api/v1/config" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -65,7 +65,7 @@ services:
     volumes:
     - peertube-redis-data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -73,13 +73,13 @@ services:
       mode: replicated
       replicas: 1
 
-
 networks:
   homelab:
     external: true
 
 volumes:
   peertube-redis-data:
+
 
 secrets:
   postgres-master:
