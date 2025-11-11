@@ -1,13 +1,11 @@
 services:
-  postgres:
+  postgresSQL:
     image: postgres:17-alpine
     secrets:
     - postgres-master
     networks:
     - homelab
     environment:
-    - PUID=1000
-    - PUIG=1000
     - POSTGRES_USER=admin
     - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-master
     - PGDATA=/var/lib/postgresql/data
