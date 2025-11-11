@@ -6,9 +6,10 @@ services:
     environment:
     # Database configuration - connecting to existing Postgres
     - POSTGRES_USER=admin
-    - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-master
+    - POSTGRES_PASSWORD=AllOfTheStars+1
     - POSTGRES_DB=peertube
     - POSTGRES_HOST=10.0.4.10
+    - POSTGRES_PORT=5432
     # Redis configuration
     - REDIS_HOSTNAME=peertube-redis
     # PeerTube configuration
@@ -20,17 +21,17 @@ services:
     - PEERTUBE_SMTP_HOSTNAME=smtp.gmail.com
     - PEERTUBE_SMTP_PORT=587
     - PEERTUBE_SMTP_USERNAME=frostlabs25@gmail.com
-    - PEERTUBE_SMTP_PASSWORD_FILE=/run/secrets/gmail-app-password
+    - PEERTUBE_SMTP_PASSWORD=tewo awqe ffhw rtun
     - PEERTUBE_SMTP_FROM=frostlabs25@gmail.com
     - PEERTUBE_SMTP_TLS=true
     - PEERTUBE_ADMIN_EMAIL=frostlabs25@gmail.com
     # Secrets - loaded from Docker secrets as files
     - PEERTUBE_DB_SUFFIX=_prod
     - PEERTUBE_SECRET=dfd1cad851c1a5b795131fd2033d46ef80c809b5ac30a3ce8e69b049587138a2
-    secrets:
-    - postgres-master
-    - peertube-key
-    - gmail-app-password
+    # secrets:
+    # - postgres-master
+    # - peertube-key
+    # - gmail-app-password
     ports:
     - target: 9000
       published: 9000
@@ -63,7 +64,7 @@ services:
     networks:
     - homelab
     volumes:
-    - peertube-redis-data:/data
+    - /home/doc/projects/swarm-data/appdata/peertube/redis:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
@@ -77,14 +78,10 @@ networks:
   homelab:
     external: true
 
-volumes:
-  peertube-redis-data:
-
-
-secrets:
-  postgres-master:
-    external: true
-  peertube-key:
-    external: true
-  gmail-app-password:
-    external: true
+# secrets:
+#   postgres-master:
+#     external: true
+#   peertube-key:
+#     external: true
+#   gmail-app-password:
+#     external: true
