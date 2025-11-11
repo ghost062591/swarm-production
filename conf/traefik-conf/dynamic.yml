@@ -13,10 +13,10 @@ http:
       #   loadBalancer:
       #     servers:
       #     - url: "http://10.0.4.10:8096"
-    peertube:
-      loadBalancer:
-        servers:
-        - url: "http://10.0.4.10:9000"
+    # peertube:
+    #   loadBalancer:
+    #     servers:
+    #     - url: "http://10.0.4.10:9000"
     #-----------------------------------------------------------------------------------
     #                          ROUTERS SECTION
     #-----------------------------------------------------------------------------------
@@ -30,13 +30,13 @@ http:
       service: unraid
       tls: {}
 
-    peertube:
-      rule: "Host(`videos.frostlabs.me`)"
-      entryPoints:
-      - websecure
-      service: peertube
-      tls:
-        certResolver: cloudflare
+    # peertube:
+    #   rule: "Host(`videos.frostlabs.me`)"
+    #   entryPoints:
+    #   - websecure
+    #   service: peertube
+    #   tls:
+    #     certResolver: cloudflare
     #-----------------------------------------------------------------------------------
     #                          MIDDLEWARES SECTION
     #-----------------------------------------------------------------------------------

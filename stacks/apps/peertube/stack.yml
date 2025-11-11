@@ -8,10 +8,16 @@ services:
     - POSTGRES_USER=admin
     - POSTGRES_PASSWORD=AllOfTheStars+1
     - POSTGRES_DB=peertube
-    - POSTGRES_HOSTNAME=peertube-postgres
+    - POSTGRES_HOSTNAME=postgres
     - POSTGRES_PORT=5432
+    - PEERTUBE_DB_HOSTNAME=postgres
+    - PEERTUBE_DB_PORT=5432
+    - PEERTUBE_DB_USERNAME=admin
+    - PEERTUBE_DB_PASSWORD=AllOfTheStars+1
+    - PEERTUBE_DB_NAME=peertube
     # Redis configuration
-    - REDIS_HOSTNAME=peertube-redis
+    - REDIS_HOSTNAME=redis
+    - PEERTUBE_REDIS_HOSTNAME=redis
     # PeerTube configuration
     - PEERTUBE_WEBSERVER_HOSTNAME=videos.frostlabs.me
     - PEERTUBE_WEBSERVER_PORT=443
@@ -24,31 +30,30 @@ services:
     - PEERTUBE_SMTP_PASSWORD=tewo awqe ffhw rtun
     - PEERTUBE_SMTP_FROM=frostlabs25@gmail.com
     - PEERTUBE_SMTP_TLS=true
+    - PEERTUBE_SMTP_DISABLE_STARTTLS=false
     - PEERTUBE_ADMIN_EMAIL=frostlabs25@gmail.com
     # Secrets - loaded from Docker secrets as files
-    - PEERTUBE_DB_SUFFIX=_prod
     - PEERTUBE_SECRET=dfd1cad851c1a5b795131fd2033d46ef80c809b5ac30a3ce8e69b049587138a2
     # secrets:
     # - postgres-master
     # - peertube-key
     # - gmail-app-password
-    ports:
-    - target: 9000
-      published: 9000
-      mode: host
-    - target: 1935
-      published: 1935
-      mode: host
+    # ports:
+    # - target: 9000
+    #   published: 9000
+    #   mode: host
+    # - target: 1935
+    #   published: 1935
+    #   mode: host
     volumes:
-    - /home/doc/projects/swarm-data/appdata/peertube/assets:/app/client/dist
+    # - /home/doc/projects/swarm-data/appdata/peertube/assets:/app/client/dist
     - /home/doc/projects/swarm-data/appdata/peertube/data:/data
-    - /home/doc/projects/swarm-data/conf/peertube-conf/production.yaml:/var/www/peertube/config/production.yaml:ro
-    healthcheck:
-      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000/api/v1/config" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
+    # healthcheck:
+    #   test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000/api/v1/config" ]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 60s
     deploy:
       mode: replicated
       replicas: 1
@@ -60,7 +65,7 @@ services:
       - traefik.http.routers.peertube.tls.certresolver=cloudflare
       - traefik.http.services.peertube.loadbalancer.server.port=9000
 
-  peertube-redis:
+  redis:
     image: redis:7-alpine
     networks:
     - homelab
@@ -75,7 +80,7 @@ services:
       mode: replicated
       replicas: 1
 
-  peertube-postgres:
+  postgres:
     image: postgres:17-alpine
     networks:
     - homelab
