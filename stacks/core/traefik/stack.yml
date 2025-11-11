@@ -14,11 +14,11 @@ services:
       target: /var/run/docker.sock
       read_only: true
     - type: bind
-      source: /home/doc/projects/swarm/conf/traefik-conf/static.yml
+      source: /home/doc/projects/swarm-data/swarm-production/conf/traefik-conf/static.yml
       target: /etc/traefik/traefik.yml
       read_only: true
     - type: bind
-      source: /home/doc/projects/swarm/conf/traefik-conf/dynamic.yml
+      source: /home/doc/projects/swarm-data/swarm-production/conf/traefik-conf/dynamic.yml
       target: /etc/traefik/dynamic/dynamic.yml
     - type: bind
       source: /home/doc/projects/swarm-data/appdata/traefik/certificates/acme.json
