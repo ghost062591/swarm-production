@@ -28,7 +28,7 @@ http:
       - websecure
       service: unraid
       middlewares:
-        - authentik@file
+        - authentik
       tls:
         certResolver: cloudflare
 
