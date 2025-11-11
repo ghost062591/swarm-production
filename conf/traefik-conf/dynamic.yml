@@ -27,6 +27,8 @@ http:
       entryPoints:
       - websecure
       service: unraid
+      middlewares:
+        - authentik@file
       tls:
         certResolver: cloudflare
 
