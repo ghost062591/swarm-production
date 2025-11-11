@@ -23,12 +23,12 @@ http:
   routers:
     # Local VPN-only services (*.swarm.home)
     unraid-local:
-      rule: "Host(`unraid.swarm.home`)"
+      rule: "Host(`unraid.frostlabs.me`)"
       entryPoints:
-      - web
       - websecure
       service: unraid
-      tls: {}
+      tls:
+        certResolver: cloudflare
 
     # peertube:
     #   rule: "Host(`videos.frostlabs.me`)"
