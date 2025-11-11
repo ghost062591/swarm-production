@@ -8,7 +8,7 @@ services:
     - POSTGRES_USER=admin
     - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-master
     - POSTGRES_DB=peertube
-    - POSTGRES_HOSTNAME=10.0.4.10
+    - POSTGRES_HOST=10.0.4.10
     # Redis configuration
     - REDIS_HOSTNAME=peertube-redis
     # PeerTube configuration
