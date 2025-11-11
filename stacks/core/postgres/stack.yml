@@ -1,27 +1,24 @@
 services:
-  postgresSQL:
+  postgres:
     image: postgres:17-alpine
+    secrets:
+    - postgres-master
     networks:
     - homelab
     environment:
     - POSTGRES_USER=admin
-    - POSTGRES_PASSWORD=AllOfTheStars+1
+    - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-master
     - PGDATA=/var/lib/postgresql/data
     volumes:
     - /home/doc/projects/unraid-appdata/postgres:/var/lib/postgresql/data
     ports:
-    - target: 5432
-      published: 5434
-      mode: host
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U admin -d postgres" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    - 5432:5432
     deploy:
       replicas: 1
 
 networks:
   homelab:
+    external: true
+secrets:
+  postgres-master:
     external: true
