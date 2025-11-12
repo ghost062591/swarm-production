@@ -17,9 +17,4 @@ services:
 
 networks:
   homelab:
-<<<<<<< HEAD
     external: true
- 
-=======
-    external: true
->>>>>>> 3a6bfa0854c08910cd0821099c6c33a74df5d037
