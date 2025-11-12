@@ -1,11 +1,11 @@
-name: Deploy Stack to Swarm
+name: Deploy All Stacks to Swarm
 
 on:
   push:
     branches:
     - main
   workflow_dispatch:
-    # Allows manual triggering
+
 
 jobs:
   deploy:
@@ -14,18 +14,30 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Validate compose file
+    - name: Deploy remaining stacks
       run: |
-        docker compose -f stack.yml config > /dev/null
-        echo "✅ Compose file is valid"
+        for stack_file in *-stack.yml; do
+          stack_name="${stack_file%-stack.yml}"
+          # Skip traefik, git-runner (deploy those manually)
+          if [[ "$stack_name" != "traefik" && "$stack_name" != "git-runner" ]]; then
+            echo "🚀 Deploying ${stack_name}..."
+            docker stack deploy -c "$stack_file" "$stack_name" --prune --with-registry-auth
+          fi
+        done
 
-    - name: Deploy to swarm
+    - name: Deploy remaining stacks
       run: |
-        echo "🚀 Deploying stack..."
-        docker stack deploy -c stack.yml ${{ github.event.repository.name }} --prune --with-registry-auth
-        echo "✅ Stack deployed successfully"
+        for stack_file in *-stack.yml; do
+          stack_name="${stack_file%-stack.yml}"
+          # Skip if already deployed
+          if [[ "$stack_name" != "traefik" && "$stack_name" != "git-runner" ]]; then
+            echo "🚀 Deploying ${stack_name}..."
+            docker stack deploy -c "$stack_file" "$stack_name" --prune --with-registry-auth
+          fi
+        done
 
-    - name: Verify deployment
+    - name: List deployed stacks
       run: |
-        sleep 5 
-        docker stack services ${{ github.event.repository.name }}
+        echo ""
+        echo "📋 All deployed stacks:"
+        docker stack ls
