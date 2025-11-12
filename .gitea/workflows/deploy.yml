@@ -1,0 +1,31 @@
+name: Deploy Stack to Swarm
+
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+    # Allows manual triggering
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Validate compose file
+      run: |
+        docker compose -f stack.yml config > /dev/null
+        echo "✅ Compose file is valid"
+
+    - name: Deploy to swarm
+      run: |
+        echo "🚀 Deploying stack..."
+        docker stack deploy -c stack.yml ${{ github.event.repository.name }} --prune --with-registry-auth
+        echo "✅ Stack deployed successfully"
+
+    - name: Verify deployment
+      run: |
+        sleep 5 
+        docker stack services ${{ github.event.repository.name }}

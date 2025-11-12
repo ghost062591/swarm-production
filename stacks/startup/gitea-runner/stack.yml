@@ -1,0 +1,27 @@
+services:
+  gitea-runner:
+    image: gitea/act_runner:latest
+    hostname: "{{.Node.Hostname}}-runner"
+    environment:
+    - GITEA_INSTANCE_URL=https://git.frostlabs.me
+    - GITEA_RUNNER_REGISTRATION_TOKEN=hF9V6IIV4lj1cZVgNaZAXuXOcdVBiAQuoZdTU5Pp
+    - GITEA_RUNNER_NAME=swarm-runner-{{.Node.Hostname}}
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - gitea-runner-data:/data
+    networks:
+    - homelab # Adjust to match your Gitea network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.role == manager
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+volumes:
+  gitea-runner-data:
+networks:
+  homelab:
+    external: true
