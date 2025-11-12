@@ -8,7 +8,7 @@ services:
     - PGID=1000
     - TZ=Etc/UTC
     volumes:
-    - /home/doc/projects/swarm-data/appdata/emby:/config
+    - /home/doc/projects/swarm-data/appdata/emby:/config 
     - /home/doc/projects/data/media/tv:/data/tvshows
     - /home/doc/projects/data/media/movies:/data/movies
     ports:
