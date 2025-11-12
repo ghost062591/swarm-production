@@ -10,7 +10,7 @@ services:
     - PGID=1000
     - TZ=Etc/UTC
     volumes:
-    - /home/doc/projects/unraid-appdata/postgres:/config
+    - /home/doc/projects/unraid-appdata/prowlarr:/config
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9696/ping" ]
       interval: 30s
