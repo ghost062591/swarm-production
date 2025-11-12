@@ -105,9 +105,9 @@ services:
     depends_on:
     - redis
 
-#---------------------------
-#         TRAEFIK
-#---------------------------
+  #---------------------------
+  #         TRAEFIK
+  #---------------------------
   traefik:
     image: traefik:v3.5.4
     # Remove all command arguments - using static config file instead
@@ -149,9 +149,9 @@ services:
         constraints:
         - node.hostname == p0
 
-#---------------------------
-#         TRAEFIK
-#---------------------------
+  #---------------------------
+  #         PORTAINER+AGENT
+  #---------------------------
   portainer:
     image: portainer/portainer-ce:latest
     command: -H tcp://tasks.agent:9001 --tlsskipverify
@@ -184,6 +184,31 @@ services:
     deploy:
       mode: global
 
+  #---------------------------
+  #         GITEA-RUNNER
+  #---------------------------
+  gitea-runner:
+    image: gitea/act_runner:latest
+    hostname: "{{.Node.Hostname}}-runner"
+    environment:
+    - GITEA_INSTANCE_URL=https://git.frostlabs.me
+    - GITEA_RUNNER_REGISTRATION_TOKEN=hF9V6IIV4lj1cZVgNaZAXuXOcdVBiAQuoZdTU5Pp
+    - GITEA_RUNNER_NAME=swarm-runner-{{.Node.Hostname}}
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - gitea-runner-data:/data
+    networks:
+    - gitea_network # Adjust to match your Gitea network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.role == manager
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+
 networks:
   homelab:
     external: true
@@ -194,3 +219,5 @@ secrets:
     external: true
   cloudflare_api_token:
     external: true
+volumes:
+  gitea-runner-data:
