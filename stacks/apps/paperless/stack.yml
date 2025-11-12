@@ -79,4 +79,4 @@ secrets:
   paperless-secret-key:
     external: true
   postgres-master:
-    external: true
+    external: true 

@@ -79,4 +79,4 @@ networks:
     external: true
   outline_internal:
     driver: overlay
-    attachable: true
+    attachable: true 

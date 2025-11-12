@@ -30,4 +30,4 @@ services:
       - traefik.http.services.emby.loadbalancer.server.port=8096
 networks:
   homelab:
-    external: true
+    external: true 
